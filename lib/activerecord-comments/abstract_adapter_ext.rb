@@ -19,7 +19,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   #
   # :api: public
   def comment table
-    adapter = adapter_name.downcase
+    adapter = adapter_name.underscore
     database_specific_method_name = "#{ adapter }_comment"
     
     if self.respond_to? database_specific_method_name
@@ -57,7 +57,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   #
   # :api: public
   def column_comment column, table
-    adapter = adapter_name.downcase
+    adapter = adapter_name.underscore
     database_specific_method_name = "#{ adapter }_column_comment"
     
     if self.respond_to? database_specific_method_name

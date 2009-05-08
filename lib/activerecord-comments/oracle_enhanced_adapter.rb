@@ -8,12 +8,12 @@ module ActiveRecord::Comments::OracleEnhancedAdapter
 
     # Oracle Enhanced implementation of ActiveRecord::Comments::BaseExt#comment
     def oracle_enhanced_comment table
-      connection.table_comment table
+      connection.table_comment table.to_s
     end
 
     # Oracle Enhanced implementation of ActiveRecord::Comments::BaseExt#column_comment
     def oracle_enhanced_column_comment column, table
-      connection.column_comment table, column
+      connection.column_comment table.to_s, column.to_s
     end
 
   end
@@ -28,12 +28,12 @@ module ActiveRecord::Comments::OracleEnhancedAdapterAdapter
 
   # Oracle Enhanced implementation of ActiveRecord::Comments::BaseExt#comment
   def oracle_enhanced_comment table
-    table_comment table
+    table_comment table.to_s
   end
 
   # Oracle Enhanced implementation of ActiveRecord::Comments::BaseExt#column_comment
   def oracle_enhanced_column_comment column, table
-    column_comment table, column
+    column_comment table.to_s, column.to_s
   end
 
 end
