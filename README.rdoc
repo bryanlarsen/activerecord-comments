@@ -53,6 +53,8 @@ Read the RDoc[http://openrain.github.com/activerecord-comments]
 For right now, I'm just supporting MySQL as it's the only database I'm currently using 
 that supports database comments.
 
+Experimental support for Oracle added by Joe Khoobyar (requires oracle_enhanced adapter).
+
 If you want to extend activerecord-comments to support comments for your favorite database, 
 the gem is coded in such a way that it should be really easy to extend.
 
