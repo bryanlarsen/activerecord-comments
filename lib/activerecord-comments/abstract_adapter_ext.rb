@@ -1,8 +1,6 @@
 module ActiveRecord::Comments::AbstractAdapterExt
 
   def self.included base
-    puts "including abstract adapter extensions in #{ base.inspect }"
-
     base.instance_eval {
       alias_method_chain :columns, :table_name # this is evil!!!  how to fix?  column needs to know its table  :(
     }
@@ -20,6 +18,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   # :api: public
   def comment table
     adapter = adapter_name.underscore
+    adapter = "mysql" if adapter=="my_sql"
     database_specific_method_name = "#{ adapter }_comment"
     
     if self.respond_to? database_specific_method_name
@@ -58,6 +57,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   # :api: public
   def column_comment column, table
     adapter = adapter_name.underscore
+    adapter = "mysql" if adapter=="my_sql"
     database_specific_method_name = "#{ adapter }_column_comment"
     
     if self.respond_to? database_specific_method_name
