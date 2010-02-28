@@ -108,7 +108,8 @@ module ActiveRecord::Comments::MysqlAdapterAdapter
   #
   # :api: private
   def create_table_sql table = table_name
-    execute("show create table `#{ table }`").all_hashes.first['Create Table']
+    h=execute("show create table `#{ table }`")
+    h.respond_to?(:all_hashes) ? h.all_hashes.first['Create Table'] : h.first["Create Table"]
   end
 
   # Returns the SQL used to create the given column for the given table

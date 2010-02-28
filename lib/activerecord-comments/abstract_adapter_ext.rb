@@ -18,7 +18,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   # :api: public
   def comment table
     adapter = adapter_name.underscore
-    adapter = "mysql" if adapter=="my_sql"
+    adapter = "mysql" if adapter=="my_sql" || adapter=="jdbc"
     database_specific_method_name = "#{ adapter }_comment"
     
     if self.respond_to? database_specific_method_name
@@ -57,7 +57,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
   # :api: public
   def column_comment column, table
     adapter = adapter_name.underscore
-    adapter = "mysql" if adapter=="my_sql"
+    adapter = "mysql" if adapter=="my_sql" || adapter=="jdbc"
     database_specific_method_name = "#{ adapter }_column_comment"
     
     if self.respond_to? database_specific_method_name
@@ -93,7 +93,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
     puts "\n\n HELLO ???? HELLO ????? \n\n"
     puts "asking adapter for columns for #{ args.inspect }"
     columns = columns_without_table_name *args
-    table = self.table_name # make table_name available as variable in instanve_eval closure
+    table = self.respond_to?(:table_name) ? self.table_name : self.tables.first # make table_name available as variable in instanve_eval closure
     columns.each do |column|
       column.instance_eval { @table_name = table }
     end
