@@ -39,7 +39,7 @@ module ActiveRecord::Comments::MysqlAdapter
     #
     # :api: private
     def create_table_sql table = table_name
-      connection.execute("show create table `#{ table }`").all_hashes.first['Create Table']
+      connection.execute("show create table #{ quote_table_name(table) }").all_hashes.first['Create Table']
     end
 
     # Returns the SQL used to create the given column for the given table
@@ -108,7 +108,7 @@ module ActiveRecord::Comments::MysqlAdapterAdapter
   #
   # :api: private
   def create_table_sql table = table_name
-    h=execute("show create table `#{ table }`")
+    h=execute("show create table #{ quote_table_name(table) }")
     h.respond_to?(:all_hashes) ? h.all_hashes.first['Create Table'] : h.first["Create Table"]
   end
 
