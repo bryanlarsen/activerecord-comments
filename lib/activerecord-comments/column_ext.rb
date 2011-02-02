@@ -1,8 +1,8 @@
 module ActiveRecord::Comments::ColumnExt
-  attr_reader :table_name
+  attr_reader :parent
 
   def comment
-    raise "table_name not set for column #{ self.inspect }" if table_name.nil? or table_name.empty?
-    ActiveRecord::Base.column_comment name, table_name
+    raise "parent not set for column #{ self.inspect }" if parent.nil?
+    parent.send(:column_comment, name, parent.table_name)
   end
 end

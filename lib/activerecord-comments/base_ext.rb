@@ -5,7 +5,7 @@ module ActiveRecord::Comments::BaseExt
 
     base.instance_eval {
       class << self
-        alias_method_chain :columns, :table_name # this is evil!!!  how to fix?  column needs to know its table  :(
+        alias_method_chain :columns, :parent # this is evil!!!  how to fix?  column needs to know its table  :(
       end
     }
   end
@@ -57,11 +57,11 @@ module ActiveRecord::Comments::BaseExt
     #   Returns an Array of column objects, each with @table_name set
     #
     # :api: private
-    def columns_with_table_name *args
-      columns = columns_without_table_name *args
-      table = self.table_name # make table_name available as variable in instanve_eval closure
+    def columns_with_parent *args
+      columns = columns_without_parent *args
+      parent = self
       columns.each do |column|
-        column.instance_eval { @table_name = table }
+        column.instance_eval { @parent = parent }
       end
       columns
     end

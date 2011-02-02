@@ -2,7 +2,7 @@ module ActiveRecord::Comments::AbstractAdapterExt
 
   def self.included base
     base.instance_eval {
-      alias_method_chain :columns, :table_name # this is evil!!!  how to fix?  column needs to know its table  :(
+      alias_method_chain :columns, :parent # this is evil!!!  how to fix?  column needs to know its table  :(
     }
   end
 
@@ -81,21 +81,19 @@ module ActiveRecord::Comments::AbstractAdapterExt
     end
   end
 
-  # Extends #columns, setting @table_name as an instance variable 
+  # Extends #columns, setting @parent as an instance variable 
   # on each of the column instances that are returned
   #
   # ==== Returns
   # Array[ActiveRecord::ConnectionAdapters::Column]::
-  #   Returns an Array of column objects, each with @table_name set
+  #   Returns an Array of column objects, each with @parent set
   #
   # :api: private
-  def columns_with_table_name *args
-    puts "\n\n HELLO ???? HELLO ????? \n\n"
-    puts "asking adapter for columns for #{ args.inspect }"
-    columns = columns_without_table_name *args
-    table = self.respond_to?(:table_name) ? self.table_name : self.tables.first # make table_name available as variable in instanve_eval closure
+  def columns_with_parent *args
+    columns = columns_without_parent *args
+    parent = self
     columns.each do |column|
-      column.instance_eval { @table_name = table }
+      column.instance_eval { @parent = parent }
     end
     columns
   end
